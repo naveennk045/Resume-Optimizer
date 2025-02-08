@@ -1,4 +1,4 @@
-import fitz  # PyMuPDF
+import fitz  
 import markdown
 from fpdf import FPDF
 import os

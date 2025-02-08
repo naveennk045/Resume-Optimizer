@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 UPLOAD_FOLDER = r"V:\Projects\Resume-Optimizer\backend\uploads"
 OUTPUT_FOLDER = r"V:\Projects\Resume-Optimizer\backend\outputs"
+
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 

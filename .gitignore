@@ -12,3 +12,6 @@ backend/uploads/
 # Ignore VS Code settings (optional)
 .vscode/
 .env
+
+# Python virtual environment files
+.venv/
