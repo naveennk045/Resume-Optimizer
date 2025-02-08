@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Optimizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="container">
+        <div class="card">
+            <h1>Resume Optimizer</h1>
+            <div class="upload-area" id="uploadArea">
+                <input type="file" id="resumeUpload" accept=".pdf" hidden>
+                <label for="resumeUpload" class="upload-label">
+                    <span class="upload-icon">📄</span>
+                    <span>Upload your resume (PDF)</span>
+                </label>
+            </div>
+            <textarea id="jobDescription" placeholder="Paste job description here..."></textarea>
+            <button id="submitBtn" class="btn">Optimize Resume</button>
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <span>Optimizing your resume...</span>
+            </div>
+            <a id="downloadBtn" class="btn" download="optimized_resume.pdf" style="display: none;">Download Optimized Resume</a>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,14 @@
+# Ignore Python cache and compiled files
+__pycache__/
+*.pyc
+
+# Ignore environment variables and configuration files
+.env
+
+# Ignore uploaded files and generated outputs
+backend/outputs/
+backend/uploads/
+
+# Ignore VS Code settings (optional)
+.vscode/
+.env
