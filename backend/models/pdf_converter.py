@@ -1,19 +1,18 @@
 import os
-import fitz
+import fitz  # PyMuPDF for PDF processing
 import markdown
 from llm import generate_optimized_resume
+from weasyprint import HTML  # For converting HTML to PDF
 
-
+# Set environment path for dependencies
 os.environ["PATH"] += os.pathsep + r"C:\msys64\mingw64\bin"
 
-from weasyprint import HTML
-
-
+# Define base directories
 BASE_DIR = r"V:\Projects\Resume-Optimizer\backend"
 UPLOADS_DIR = os.path.join(BASE_DIR, "uploads")
 OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
 
-
+# Ensure output directory exists
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 def pdf_to_markdown(pdf_path):
@@ -61,17 +60,10 @@ def markdown_to_pdf(input_md, output_pdf, css_path=None):
     @page {
         size: A4;
         margin: 1.5cm;
-        @top-left {
-            content: string(resume-name);
-            font-size: 9pt;
-            color: #666;
-            vertical-align: middle;
-        }
         @bottom-right {
             content: "Page " counter(page) " of " counter(pages);
             font-size: 9pt;
             color: #666;
-            vertical-align: middle;
         }
     }
     body {
@@ -79,91 +71,12 @@ def markdown_to_pdf(input_md, output_pdf, css_path=None):
         font-size: 10pt;
         line-height: 1.5;
         color: #333;
-        margin: 0;
-        padding: 0;
     }
     h1 {
         font-size: 22pt;
         font-weight: bold;
         color: #1a2a44;
-        margin: 0 0 10px 0;
-        padding-bottom: 5px;
         border-bottom: 2px solid #1a2a44;
-        string-set: resume-name content();
-    }
-    h2 {
-        font-size: 14pt;
-        font-weight: bold;
-        color: #1a2a44;
-        margin: 20px 0 10px 0;
-        padding-bottom: 3px;
-        border-bottom: 1px solid #ddd;
-    }
-    h3 {
-        font-size: 12pt;
-        font-weight: bold;
-        color: #333;
-        margin: 10px 0 5px 0;
-    }
-    p {
-        margin: 5px 0;
-    }
-    ul {
-        margin: 5px 0 10px 0;
-        padding-left: 20px;
-    }
-    li {
-        margin-bottom: 5px;
-    }
-    /* Contact Info Section */
-    h1 + p {
-        font-size: 10pt;
-        color: #555;
-        margin-bottom: 20px;
-    }
-    /* Skills Section */
-    ul.skills-list {
-        column-count: 2;
-        column-gap: 20px;
-        margin: 5px 0 15px 0;
-        padding-left: 20px;
-    }
-    ul.skills-list li {
-        break-inside: avoid;
-    }
-    /* Experience Section */
-    .experience-entry {
-        margin-bottom: 15px;
-    }
-    .experience-entry h3 {
-        margin-bottom: 2px;
-    }
-    .experience-entry p {
-        font-size: 9pt;
-        color: #666;
-        margin-bottom: 5px;
-    }
-    /* Remove default margins for consecutive paragraphs */
-    p + p {
-        margin-top: 0;
-    }
-    /* Code blocks (if any) */
-    code {
-        background-color: #f4f4f4;
-        padding: 2px 4px;
-        border-radius: 3px;
-        font-family: "Courier New", monospace;
-        font-size: 9pt;
-    }
-    pre {
-        background-color: #f4f4f4;
-        padding: 8px;
-        border-radius: 3px;
-        overflow-x: auto;
-        font-size: 9pt;
-    }
-    .codehilite {
-        background-color: #f4f4f4;
     }
     """
 
