@@ -4,3 +4,4 @@ fpdf==1.7.2
 groq==0.18.0
 Markdown==3.7
 python-dotenv==1.0.1
+pymupdf
