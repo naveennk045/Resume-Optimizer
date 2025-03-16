@@ -1,44 +1,889 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume Optimizer</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Optimizer AI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <style>
+    /* ===== Base Styles ===== */
+    :root {
+      --primary: #4361ee;
+      --primary-light: #5e7afc;
+      --primary-dark: #3652d9;
+      --secondary: #0f1740;
+      --accent: #3d84ff;
+      --success: #2ecc71;
+      --warning: #f39c12;
+      --text: #343a40;
+      --text-light: #6c757d;
+      --light-bg: #f8f9fa;
+      --white: #ffffff;
+      --border-radius: 8px;
+      --box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      color: var(--text);
+      background: linear-gradient(-45deg, #f1f4ff, #e6eaff, #f0f8ff, #eef6ff);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button, .btn {
+      cursor: pointer;
+      border: none;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      transition: var(--transition);
+      padding: 12px 28px;
+      font-size: 1rem;
+      box-shadow: var(--box-shadow);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(67, 97, 238, 0.25);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ===== Header Styles ===== */
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+      position: fixed;
+      width: 100%;
+      z-index: 1000;
+      transition: var(--transition);
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: var(--primary);
+    }
+
+    .logo i {
+      margin-right: 10px;
+      font-size: 1.6rem;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+
+    nav ul li a {
+      padding: 10px 18px;
+      margin: 0 5px;
+      font-weight: 500;
+      position: relative;
+    }
+
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    nav ul li a:hover::after {
+      width: 80%;
+      left: 10%;
+    }
+
+    .get-started-btn {
+      background: var(--primary);
+      color: var(--white);
+      padding: 10px 22px;
+      border-radius: var(--border-radius);
+      margin-left: 15px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+      transition: var(--transition);
+    }
+
+    .get-started-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(67, 97, 238, 0.3);
+    }
+
+    /* ===== Hero Section Styles ===== */
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      max-width: 600px;
+      z-index: 10;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: var(--secondary);
+      animation: fadeInUp 1s ease;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: var(--text-light);
+      animation: fadeInUp 1s ease 0.2s backwards;
+    }
+
+    .hero-btn {
+      animation: fadeInUp 1s ease 0.4s backwards;
+    }
+
+    /* ===== How It Works Section ===== */
+    .how-it-works {
+      padding: 100px 0;
+      background: var(--white);
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-title h2 {
+      font-size: 2.2rem;
+      color: var(--secondary);
+      margin-bottom: 15px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title h2::after {
+      content: '';
+      position: absolute;
+      width: 80px;
+      height: 3px;
+      background: var(--primary);
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .section-title p {
+      color: var(--text-light);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .steps-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 50px;
+    }
+
+    .step {
+      flex: 1;
+      padding: 30px;
+      text-align: center;
+      border-radius: 12px;
+      background: var(--white);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+      margin: 0 15px;
+      transition: var(--transition);
+    }
+
+    .step:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(67, 97, 238, 0.15);
+    }
+
+    .step-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 25px;
+      background: rgba(67, 97, 238, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step-icon i {
+      font-size: 2rem;
+      color: var(--primary);
+    }
+
+    .step h3 {
+      margin-bottom: 15px;
+      color: var(--secondary);
+    }
+
+    .step p {
+      color: var(--text-light);
+    }
+
+    /* ===== Upload Section Styles ===== */
+    .upload-page {
+      min-height: 100vh;
+      padding-top: 100px;
+      padding-bottom: 60px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .upload-page.active {
+      display: flex;
+    }
+
+    .upload-container {
+      width: 100%;
+      max-width: 900px;
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      margin: 0 20px;
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    .upload-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: var(--white);
+      padding: 30px;
+      text-align: center;
+    }
+
+    .upload-header h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .upload-header p {
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+    }
+
+    .upload-content {
+      padding: 40px 30px;
+    }
+
+    .upload-section {
+      margin-bottom: 30px;
+    }
+
+    .upload-section h3 {
+      margin-bottom: 15px;
+      color: var(--secondary);
+      font-size: 1.4rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .upload-section h3::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, var(--primary-light), var(--primary));
+    }
+
+    .drag-area {
+      border: 2px dashed rgba(67, 97, 238, 0.25);
+      border-radius: 12px;
+      padding: 50px 0;
+      text-align: center;
+      transition: var(--transition);
+      cursor: pointer;
+      margin-bottom: 10px;
+      background: rgba(67, 97, 238, 0.02);
+    }
+
+    .drag-area.active {
+      border-color: var(--primary);
+      background: rgba(67, 97, 238, 0.05);
+      transform: scale(1.02);
+    }
+
+    .drag-area:hover {
+      border-color: var(--primary);
+      background: rgba(67, 97, 238, 0.05);
+    }
+
+    .drag-area .icon {
+      font-size: 4rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .drag-area h4 {
+      margin-bottom: 15px;
+      color: var(--secondary);
+      font-size: 1.2rem;
+    }
+
+    .drag-area span {
+      font-size: 1rem;
+      color: var(--text-light);
+    }
+
+    .drag-area span a {
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    .file-details {
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(67, 97, 238, 0.05);
+      border-radius: 10px;
+      display: none;
+      align-items: center;
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    .file-details.active {
+      display: flex;
+    }
+
+    .file-details i {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-right: 20px;
+    }
+
+    .file-details p {
+      flex: 1;
+      font-weight: 500;
+    }
+
+    .file-details button {
+      background: transparent;
+      color: var(--text-light);
+      padding: 8px;
+      box-shadow: none;
+      font-size: 1.2rem;
+      transition: all 0.2s ease;
+    }
+
+    .file-details button:hover {
+      color: #dc3545;
+      transform: scale(1.1);
+    }
+
+    .upload-formats {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      text-align: center;
+      margin-top: 15px;
+      padding: 10px;
+      background: rgba(67, 97, 238, 0.05);
+      border-radius: 6px;
+    }
+
+    .job-description textarea {
+      width: 100%;
+      height: 200px;
+      padding: 20px;
+      border: 1px solid rgba(67, 97, 238, 0.2);
+      border-radius: 12px;
+      resize: none;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: var(--transition);
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .job-description textarea:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+      background: white;
+    }
+
+    .generate-btn {
+      width: 100%;
+      padding: 18px;
+      font-size: 1.2rem;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: var(--white);
+      border-radius: 10px;
+      text-align: center;
+      margin-top: 30px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(67, 97, 238, 0.25);
+      transition: all 0.4s ease;
+    }
+
+    .generate-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(67, 97, 238, 0.3);
+    }
+
+    /* Processing Animation Styles */
+    .processing-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 64, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .processing-overlay.active {
+      display: flex;
+      animation: fadeIn 0.3s forwards;
+    }
+
+    .processing-content {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      max-width: 500px;
+      width: 90%;
+      animation: scaleIn 0.5s forwards;
+    }
+
+    @keyframes scaleIn {
+      to { transform: scale(1); }
+    }
+
+    .processing-circle {
+      width: 120px;
+      height: 120px;
+      border: 6px solid rgba(67, 97, 238, 0.1);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spinner 1.5s linear infinite;
+      margin: 0 auto 30px;
+    }
+
+    @keyframes spinner {
+      to { transform: rotate(360deg); }
+    }
+
+    .processing-content h3 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: var(--secondary);
+    }
+
+    .processing-content p {
+      color: var(--text-light);
+      margin-bottom: 30px;
+      font-size: 1.1rem;
+    }
+
+    .progress-bar {
+      height: 8px;
+      width: 0;
+      background: linear-gradient(90deg, var(--primary-light), var(--primary-dark));
+      border-radius: 8px;
+      transition: width 0.4s linear;
+    }
+
+    /* Download Section */
+    .download-section {
+      display: none;
+      text-align: center;
+      margin-top: 30px;
+      padding: 30px;
+      background: rgba(67, 97, 238, 0.05);
+      border-radius: 12px;
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    .download-section.active {
+      display: block;
+    }
+
+    .download-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: var(--white);
+      display: inline-flex;
+      align-items: center;
+      padding: 15px 30px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(67, 97, 238, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .download-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(67, 97, 238, 0.35);
+    }
+
+    /* Particle Animation */
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      opacity: 0.5;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
+      .steps-container { flex-direction: column; }
+      .step { margin: 0 0 20px; }
+      .upload-header h1 { font-size: 1.8rem; }
+      .drag-area { padding: 40px 20px; }
+      .generate-btn { font-size: 1.1rem; padding: 16px; }
+    }
+  </style>
 </head>
 <body>
-    <div class="background">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+  <!-- Background Particles -->
+  <div id="particles-js"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="container header-container">
+      <a href="#" class="logo">
+        <i class="fas fa-file-alt"></i>
+        <span>ResumeOptimizer</span>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#" onclick="showSection('landing-page')">Home</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#" class="get-started-btn" onclick="showSection('upload-page')">Upload Resume</a></li>
+        </ul>
+      </nav>
     </div>
-    <div class="container">
-        <div class="card">
-            <h1>Resume Optimizer</h1>
-            <div class="upload-area" id="uploadArea">
-                <input type="file" id="resumeUpload" accept=".pdf" hidden>
-                <label for="resumeUpload" class="upload-label">
-                    <span class="upload-icon">📄</span>
-                    <span>Upload your resume (PDF)</span>
-                </label>
-            </div>
-            <textarea id="jobDescription" placeholder="Paste job description here..."></textarea>
-            <button id="submitBtn" class="btn">Optimize Resume</button>
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <span>Optimizing your resume...</span>
-            </div>
-            <a id="downloadBtn" class="btn" download="optimized_resume.pdf" style="display: none;">Download Optimized Resume</a>
+  </header>
+
+  <!-- Processing Overlay -->
+  <div class="processing-overlay" id="processingOverlay">
+    <div class="processing-content">
+      <div class="processing-circle"></div>
+      <h3 id="processingTitle">Optimizing Your Resume</h3>
+      <p id="processingText">Our AI is tailoring your resume to match the job description perfectly. This will only take a moment...</p>
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Landing Page -->
+  <div id="landing-page" class="active">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1>Optimize Your Resume Instantly with AI</h1>
+          <p>Upload your resume, provide the job description, and let AI craft the perfect match to maximize your chances of landing that dream job.</p>
+          <a href="#" class="btn btn-primary hero-btn" onclick="showSection('upload-page')">Try It Now</a>
         </div>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="how-it-works">
+      <div class="container">
+        <div class="section-title">
+          <h2>How It Works</h2>
+          <p>Our AI-powered platform makes resume optimization quick and easy in just three simple steps.</p>
+        </div>
+        <div class="steps-container">
+          <div class="step">
+            <div class="step-icon">
+              <i class="fas fa-upload"></i>
+            </div>
+            <h3>Upload Resume</h3>
+            <p>Drag and drop your existing resume in PDF format to our secure platform.</p>
+          </div>
+          <div class="step">
+            <div class="step-icon">
+              <i class="fas fa-clipboard-list"></i>
+            </div>
+            <h3>Provide Job Description</h3>
+            <p>Paste the job description so our AI can tailor your resume to match the requirements.</p>
+          </div>
+          <div class="step">
+            <div class="step-icon">
+              <i class="fas fa-download"></i>
+            </div>
+            <h3>Download Optimized Resume</h3>
+            <p>Get your professionally optimized resume ready to impress potential employers.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Upload Page -->
+  <section id="upload-page" class="upload-page">
+    <div class="container">
+      <div class="upload-container">
+        <div class="upload-header">
+          <h1>Resume Optimization</h1>
+          <p>Upload your resume and the job description, and let our AI create a perfectly tailored resume that maximizes your chances of getting noticed.</p>
+        </div>
+        <div class="upload-content">
+          <form id="resumeForm">
+            <!-- Resume Upload Section -->
+            <div class="upload-section">
+              <h3><i class="fas fa-file-upload"></i> Upload Your Resume</h3>
+              <div class="drag-area" id="dragArea">
+                <div class="icon">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <h4>Drag & Drop your resume here</h4>
+                <span>OR</span><br>
+                <span><a href="#" id="browseBtn">Browse Files</a></span>
+                <input type="file" name="file" id="fileInput" accept=".pdf" hidden>
+              </div>
+              <div class="file-details" id="fileDetails">
+                <i class="fas fa-file-pdf"></i>
+                <p id="fileName"></p>
+                <button type="button" id="removeFileBtn"><i class="fas fa-times-circle"></i></button>
+              </div>
+              <div class="upload-formats">
+                <i class="fas fa-info-circle"></i> Accepted format: PDF
+              </div>
+            </div>
+            <!-- Job Description Section -->
+            <div class="upload-section">
+              <div class="job-description-header">
+                <i class="fas fa-clipboard-list"></i>
+                <h3>Job Description</h3>
+              </div>
+              <div class="job-description">
+                <textarea name="job_description" id="jobDescription" placeholder="Paste the job description here..."></textarea>
+              </div>
+            </div>
+            <!-- Generate Button -->
+            <button type="button" class="generate-btn" id="generateBtn">
+              <i class="fas fa-magic"></i> Generate Optimized Resume
+            </button>
+          </form>
+          <!-- Download Section -->
+          <div class="download-section" id="downloadSection">
+            <h3>Your Optimized Resume Is Ready!</h3>
+            <p>We've tailored your resume to match the job requirements. It's now ATS-friendly and optimized to get you noticed by recruiters.</p>
+            <a href="#" class="download-btn" id="downloadBtn">
+              <i class="fas fa-download"></i> Download Optimized Resume
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
-    <script src="script.js"></script>
+  </section>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    // Particles.js Initialization
+    particlesJS('particles-js', {
+      "particles": {
+        "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+        "color": { "value": "#4361ee" },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.5, "random": false },
+        "size": { "value": 3, "random": true },
+        "line_linked": { "enable": true, "distance": 150, "color": "#4361ee", "opacity": 0.4, "width": 1 },
+        "move": { "enable": true, "speed": 6, "direction": "none", "random": false }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": true, "mode": "push" } },
+        "modes": { "repulse": { "distance": 100, "duration": 0.4 } }
+      }
+    });
+
+    // Show/Hide Sections
+    function showSection(sectionId) {
+      document.querySelectorAll('#landing-page, #upload-page').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(sectionId).classList.add('active');
+    }
+
+    // File Upload Logic
+    const dragArea = document.getElementById('dragArea');
+    const fileInput = document.getElementById('fileInput');
+    const browseBtn = document.getElementById('browseBtn');
+    const fileDetails = document.getElementById('fileDetails');
+    const fileName = document.getElementById('fileName');
+    const removeFileBtn = document.getElementById('removeFileBtn');
+
+    browseBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file && file.type === 'application/pdf') {
+        fileDetails.classList.add('active');
+        fileName.textContent = file.name;
+      }
+    });
+
+    dragArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dragArea.classList.add('active');
+    });
+
+    dragArea.addEventListener('dragleave', () => {
+      dragArea.classList.remove('active');
+    });
+
+    dragArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dragArea.classList.remove('active');
+      const file = e.dataTransfer.files[0];
+      if (file && file.type === 'application/pdf') {
+        fileInput.files = e.dataTransfer.files;
+        fileDetails.classList.add('active');
+        fileName.textContent = file.name;
+      }
+    });
+
+    removeFileBtn.addEventListener('click', () => {
+      fileInput.value = '';
+      fileDetails.classList.remove('active');
+      fileName.textContent = '';
+    });
+
+    // Form Submission Logic
+    const resumeForm = document.getElementById('resumeForm');
+    const generateBtn = document.getElementById('generateBtn');
+    const processingOverlay = document.getElementById('processingOverlay');
+    const progressBar = document.getElementById('progressBar');
+    const downloadSection = document.getElementById('downloadSection');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    generateBtn.addEventListener('click', async () => {
+      const file = fileInput.files[0];
+      const jobDescription = document.getElementById('jobDescription').value;
+
+      if (!file || !jobDescription) {
+        alert('Please upload a resume and provide a job description.');
+        return;
+      }
+
+      processingOverlay.classList.add('active');
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += 10;
+        progressBar.style.width = `${progress}%`;
+        if (progress >= 100) clearInterval(interval);
+      }, 300);
+
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('job_description', jobDescription);
+
+      try {
+        const response = await fetch('http://127.0.0.1:8000/upload/', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (response.ok) {
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+          downloadBtn.href = url;
+          downloadBtn.download = 'Optimized_Resume.pdf';
+          setTimeout(() => {
+            processingOverlay.classList.remove('active');
+            downloadSection.classList.add('active');
+          }, 3000);
+        } else {
+          throw new Error('Failed to process resume');
+        }
+      } catch (error) {
+        console.error(error);
+        alert('An error occurred while processing your resume.');
+        processingOverlay.classList.remove('active');
+      }
+    });
+  </script>
 </body>
 </html>
-
