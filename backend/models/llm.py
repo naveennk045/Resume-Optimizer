@@ -78,8 +78,7 @@ def generate_optimized_resume(md_resume: str, job_description: str) -> str:
         return response.choices[0].message.content.strip()
 
     except Exception as e:
-        print(f"Error occurred: {e}")
-        return "An error occurred while processing your request."
+        raise RuntimeError("An error occurred while processing your request") from e
 
 if __name__ == "__main__":
     sample_md_resume = """
