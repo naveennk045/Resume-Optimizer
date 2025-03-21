@@ -1,8 +1,8 @@
 import os
-import fitz  # PyMuPDF for PDF processing
+import fitz  
 import markdown
 from llm import generate_optimized_resume
-from weasyprint import HTML  # For converting HTML to PDF
+from weasyprint import HTML 
 
 # Set environment path for dependencies
 os.environ["PATH"] += os.pathsep + r"C:\msys64\mingw64\bin"
